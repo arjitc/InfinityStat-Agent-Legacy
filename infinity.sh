@@ -35,6 +35,7 @@ fi
 
 ##Lets post the data
 curl --data "
+server_key=$server_key&
 ram_total=$ram_total&
 ram_free=$ram_free&
 cpu_name=$cpu_name&
