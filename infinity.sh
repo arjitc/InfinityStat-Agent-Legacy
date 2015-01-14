@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Server key
-server_key="Server Key from InfinityStat goes in here"
+server_key=$1
 
 ## RAM
 ram_total=$(awk '/MemTotal/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
