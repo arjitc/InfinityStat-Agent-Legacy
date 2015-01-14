@@ -1,0 +1,2 @@
+# InfinityStat
+InfinityStat monitoring agent
