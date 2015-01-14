@@ -31,8 +31,9 @@ transmit_1=$(cat /proc/net/dev | grep eth0 | awk {'print $10'})
 sleep 1
 receive_2=$(cat /proc/net/dev | grep eth0 | awk {'print $2'})
 transmit_2=$(cat /proc/net/dev | grep eth0 | awk {'print $10'})
-receive='expr $receive_2 - $receive_1'
-transmit='expr $transmit_2 - $transmit_1'
+receive=`expr $receive_2 - $receive_1`
+transmit=`expr $transmit_2 - $transmit_1`
+
 #OS
 os_version=$(cat /etc/redhat-release)
 if [ -z "$os_version" ]
