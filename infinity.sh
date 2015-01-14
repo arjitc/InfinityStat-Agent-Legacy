@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Server key
+## Initial information
 server_key=$1
 
 ## RAM
@@ -34,19 +34,4 @@ if [ -z "$os_version" ]
 fi
 
 ##Lets post the data
-curl --data "
-server_key=$server_key&
-ram_total=$ram_total&
-ram_free=$ram_free&
-cpu_name=$cpu_name&
-uptime=$uptime&
-load_1=$load_1&
-load_2=$load_2&
-load_3=$load_3&
-iowait=$iowait&
-ping_us=$ping_us&
-ping_eu=$ping_eu&
-ping_asia=$ping_asia&
-system_cpu=$system_cpu&
-idle_cpu=$idle_cpu&
-user_cpu=$user_cpu" http://infinitystat.com/infinity.php
+curl --data "server_key=$server_key&ram_total=$ram_total&ram_free=$ram_free&cpu_name=$cpu_name&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu" http://infinitystat.com/infinity.php
