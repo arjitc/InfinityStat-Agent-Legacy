@@ -22,7 +22,7 @@ system_cpu=$(iostat -c|awk '/^ /{print $3}')
 uptime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
 
 ##Network
-nic=$(ip route get 8.8.8.8 | grep dev | awk '{ print $5 }')
+nic=$(ip route get 8.8.8.8 | grep dev | awk -F'dev' '{ print $2 }' | awk '{ print $1 }')
 ping_us=$(ping -c 1 184.105.253.14 | tail -1| awk -F '/' '{print $5}')
 ping_eu=$(ping -c 1 216.66.80.30 | tail -1| awk -F '/' '{print $5}')
 ping_asia=$(ping -c 1 216.218.221.42 | tail -1| awk -F '/' '{print $5}')
