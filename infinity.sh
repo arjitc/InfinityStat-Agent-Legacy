@@ -36,10 +36,12 @@ receive=`expr $receive_2 - $receive_1`
 transmit=`expr $transmit_2 - $transmit_1`
 
 #OS
-os_version=$(cat /etc/redhat-release)
-if [ -z "$os_version" ]
-	then
-	os_verison=$(cat /etc/debian_version)
+os_version_file="/etc/redhat-release"
+if [ ! -r "$os_version_file" ]
+        then
+        os_verison=$(cat /etc/debian_version)
+        else
+        os_version=$(cat "$os_version_file")
 fi
 
 ##Lets post the data
