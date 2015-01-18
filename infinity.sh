@@ -3,6 +3,9 @@
 ## Initial information
 server_key=$1
 
+## Kernel info
+kernel_info=$(uname -r)
+
 ## RAM
 ram_total=$(awk '/MemTotal/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
 ram_free=$(awk '/MemFree/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
@@ -45,4 +48,4 @@ if [ ! -r "$os_version_file" ]
 fi
 
 ##Lets post the data
-curl --data "server_key=$server_key&ram_total=$ram_total&ram_free=$ram_free&cpu_name=$cpu_name&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit" http://infinitystat.com/infinity.php
+curl --data "server_key=$server_key&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&cpu_name=$cpu_name&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit" http://infinitystat.com/infinity.php
