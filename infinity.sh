@@ -7,8 +7,10 @@ server_key=$1
 kernel_info=$(uname -r)
 
 ## RAM
-ram_total=$(awk '/MemTotal/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
-ram_free=$(awk '/MemFree/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
+ram_total=$(awk '/^MemTotal/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
+ram_free=$(awk '/^MemFree/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
+ram_cached=$(awk '/^Cached:/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
+ram_buffers=$(awk '/^Buffers:/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
 
 ##CPU
 cpu_name=$(grep 'model name' /proc/cpuinfo | cut -d: -f2 |cut -d@ -f1 |head -1)
@@ -50,7 +52,7 @@ fi
 
 ##Lets post the data
 curl --data "server_key=$server_key&kernel_info=$kernel_info
-             &ram_total=$ram_total&ram_free=$ram_free
+             &ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers
              &cpu_freq=$cpu_freq&cpu_name=$cpu_name&uptime=$uptime
              &load_1=$load_1&load_2=$load_2&load_3=$load_3
              &iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia
