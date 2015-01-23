@@ -34,9 +34,9 @@ ping_eu=$(ping -c 1 216.66.80.30 | tail -1| awk -F '/' '{print $5}')
 ping_asia=$(ping -c 1 216.218.221.42 | tail -1| awk -F '/' '{print $5}')
 
 receive_1=$(cat /proc/net/dev | grep $nic | awk {'print $2'})
-pps_receive_1=$(cat /proc/net/dev | grep eth0 | awk {'print $3'})
+pps_receive_1=$(cat /proc/net/dev | grep $nic | awk {'print $3'})
 transmit_1=$(cat /proc/net/dev | grep $nic | awk {'print $10'})
-pps_transmit_1=$(cat /proc/net/dev | grep eth0 | awk {'print $11'})
+pps_transmit_1=$(cat /proc/net/dev | grep $nic | awk {'print $11'})
 sleep 1
 receive_2=$(cat /proc/net/dev | grep $nic | awk {'print $2'})
 pps_receive_2=$(cat /proc/net/dev | grep $nic | awk {'print $3'})
