@@ -34,27 +34,25 @@ ping_eu=$(ping -c 1 216.66.80.30 | tail -1| awk -F '/' '{print $5}')
 ping_asia=$(ping -c 1 216.218.221.42 | tail -1| awk -F '/' '{print $5}')
 
 receive_1=$(cat /proc/net/dev | grep $nic | awk {'print $2'})
+pps_receive_1=$(cat /proc/net/dev | grep eth0 | awk {'print $3'})
 transmit_1=$(cat /proc/net/dev | grep $nic | awk {'print $10'})
+pps_transmit_1=$(cat /proc/net/dev | grep eth0 | awk {'print $11'})
 sleep 1
 receive_2=$(cat /proc/net/dev | grep $nic | awk {'print $2'})
+pps_receive_2=$(cat /proc/net/dev | grep $nic | awk {'print $3'})
 transmit_2=$(cat /proc/net/dev | grep $nic | awk {'print $10'})
+pps_transmit_2=$(cat /proc/net/dev | grep $nic | awk {'print $11'})
 receive=`expr $receive_2 - $receive_1`
 transmit=`expr $transmit_2 - $transmit_1`
+pps_receive=`expr $pps_receive_2 - $pps_receive_1`
+pps_transmit=`expr $pps_transmit_2 - $pps_transmit_1`
 
 #OS
-os_version_file="/etc/redhat-release"
-if [ ! -r "$os_version_file" ]
+distro="egrep -i '^red\ hat|^fedora|^suse|^centos|^ubuntu|^debian' /etc/issue"
+if [ ! -r "$distro" ]
         then
-        os_verison=$(cat /etc/debian_version)
-        else
-        os_version=$(cat "$os_version_file")
+        distro="Unknown"
 fi
 
 ##Lets post the data
-curl --data "server_key=$server_key&kernel_info=$kernel_info
-             &ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers
-             &cpu_freq=$cpu_freq&cpu_name=$cpu_name&uptime=$uptime
-             &load_1=$load_1&load_2=$load_2&load_3=$load_3
-             &iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia
-             &system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu
-             &receive=$receive&transmit=$transmit" http://infinitystat.com/infinity.php
+curl --data "server_key=$server_key&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&cpu_freq=$cpu_freq&cpu_name=$cpu_name&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit" http://infinitystat.com/infinity.php
