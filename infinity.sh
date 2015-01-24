@@ -3,6 +3,12 @@
 ## Initial information
 server_key=$1
 
+if [ "$1" == update ]; then
+        wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinity.sh -O /usr/local/bin/infinity.sh --no-check-certificate
+        chmod +x /usr/local/bin/infinity.sh
+        echo "Update complete."
+fi
+
 ## Kernel info
 kernel_info=$(uname -r)
 
