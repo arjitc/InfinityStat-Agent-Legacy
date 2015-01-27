@@ -2,7 +2,7 @@
 while true
 do
 	## Initial information
-	server_key=$(cat /bin/infinitystat.conf)
+	server_key=$(cat /etc/infinitystat.conf)
 
 	## Kernel info
 	kernel_info=$(uname -r)
