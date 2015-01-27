@@ -16,13 +16,13 @@ NAME=infinitystat
 
 do_start()
 {
-   nohup sh /usr/local/bin/infinity.sh &
+   nohup sh /bin/infinitystat >/dev/null 2>&1
    echo "Starting InfinityStat!";
 }
 
 do_stop()
 {
-   pkill -f /usr/local/bin/infinity.sh
+   pkill -f /bin/infinitystat
    echo "Stopping InfinityStat!"
 }
 
