@@ -16,7 +16,7 @@ NAME=infinitystat
 
 do_start()
 {
-   nohup sh /bin/infinitystat >/dev/null 2>&1
+   nohup sh /bin/infinitystat >/dev/null 2>&1 &
    echo "Starting InfinityStat!";
 }
 
