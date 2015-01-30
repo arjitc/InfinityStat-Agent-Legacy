@@ -18,6 +18,9 @@ if [ -z "$distro" ]
             chmod +x /bin/infinitystat
             touch /etc/infinitystat.conf
             echo "$1" >> /etc/infinitystat.conf
+            echo "Install complete"
+            echo "To start InfinityStat: service infinitystat start"
+            echo "To stop InfinityStat: service infinitystat stop"
         else
             ##assuming distro has apt-get support / debian / ubuntu
             sudo apt-get update
@@ -29,4 +32,7 @@ if [ -z "$distro" ]
             chmod +x /bin/infinitystat
             touch /etc/infinitystat.conf
             echo "$1" >> /etc/infinitystat.conf
+            echo "Install complete"
+            echo "To start InfinityStat: service infinitystat start"
+            echo "To stop InfinityStat: service infinitystat stop"
 fi
