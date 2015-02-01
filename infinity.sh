@@ -1,4 +1,13 @@
 #!/bin/bash
+if [ $1 == "update" ]; then
+	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinity.sh -O /bin/infinitystat --no-check-certificate
+	chmod +x /bin/infinitystat
+	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinitystat -O /etc/init.d/infinitystat --no-check-certificate
+    	chmod +x /etc/init.d/infinitystat
+	echo "Update Successful"
+	exit 
+fi
+
 while true
 do
 	## Initial information
