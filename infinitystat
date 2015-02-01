@@ -26,6 +26,14 @@ do_stop()
    echo "Stopping InfinityStat!"
 }
 
+do_restart()
+{
+   pkill -f /bin/infinitystat
+   echo "Stopping InfinityStat!"
+   nohup sh /bin/infinitystat >/dev/null 2>&1 &
+   echo "Starting InfinityStat!";
+}
+
 
 case "$1" in
    start)
@@ -33,6 +41,9 @@ case "$1" in
      ;;
    stop)
      do_stop
+     ;;
+   restart)
+     do_restart
      ;;
 esac
 
