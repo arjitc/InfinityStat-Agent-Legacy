@@ -60,7 +60,7 @@ do
 	pps_transmit=`expr $pps_transmit_2 - $pps_transmit_1`
 
 	#OS
-	distro="egrep -i '^red\ hat|^fedora|^suse|^centos|^ubuntu|^debian' /etc/issue"
+	distro=$(egrep -i '^red\ hat|^fedora|^suse|^centos|^ubuntu|^debian' /etc/issue)
 	##if [ ! -r "$distro" ]
 	##        then
 	##        distro="Unknown"
