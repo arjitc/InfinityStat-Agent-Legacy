@@ -3,7 +3,7 @@ if [ $1 == "update" ]; then
 	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinity.sh -O /bin/infinitystat --no-check-certificate
 	chmod +x /bin/infinitystat
 	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinitystat -O /etc/init.d/infinitystat --no-check-certificate
-    	chmod +x /etc/init.d/infinitystat
+	chmod +x /etc/init.d/infinitystat
 	echo "Update Successful"
 	exit 
 fi
@@ -33,6 +33,8 @@ do
 	user_cpu=$(iostat -c|awk '/^ /{print $1}')
 	idle_cpu=$(iostat -c|awk '/^ /{print $6}')
 	system_cpu=$(iostat -c|awk '/^ /{print $3}')
+	cpu_count=$(cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l)
+	core_count=$(cat /proc/cpuinfo | grep "siblings" | sort -u | awk '{print $3}')
 
 	##Uptime
 	uptime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
@@ -65,7 +67,7 @@ do
 	fi
 
 	##Lets post the data
-	curl --data "server_key=$server_key&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&cpu_freq=$cpu_freq&cpu_name=$cpu_name&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit" http://infinitystat.com/infinity.php
+	curl --data "server_key=$server_key&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&$core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit" http://infinitystat.com/infinity.php
 
 sleep 300
 done
