@@ -4,6 +4,8 @@ if [ $1 == "update" ]; then
 	chmod +x /bin/infinitystat
 	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinitystat -O /etc/init.d/infinitystat --no-check-certificate
 	chmod +x /etc/init.d/infinitystat
+	echo "Restarting InfinityStat"
+	/etc/init.d/infinitystat restart
 	echo "Update Successful"
 	exit 
 fi
@@ -61,13 +63,10 @@ do
 
 	#OS
 	distro=$(egrep -i '^red\ hat|^fedora|^suse|^centos|^ubuntu|^debian' /etc/issue)
-	##if [ ! -r "$distro" ]
-	##        then
-	##        distro="Unknown"
-	##fi
+	process_count=$(ps aux | wc -l)
 
 	##Lets post the data
-	curl --data "server_key=$server_key&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro" http://infinitystat.com/infinity.php
+	curl --data "server_key=$server_key&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count" http://infinitystat.com/infinity.php
 
 sleep 300
 done
