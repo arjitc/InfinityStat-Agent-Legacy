@@ -21,6 +21,11 @@ if [ -z "$distro" ]
             echo "Install complete"
             echo "To start InfinityStat: service infinitystat start"
             echo "To stop InfinityStat: service infinitystat stop"
+            echo "===="
+            echo "Starting InfinityStat service"
+            /etc/init.d/infinitystat start
+            echo "===="
+            
         else
             ##assuming distro has apt-get support / debian / ubuntu
             sudo apt-get update
@@ -35,4 +40,8 @@ if [ -z "$distro" ]
             echo "Install complete"
             echo "To start InfinityStat: service infinitystat start"
             echo "To stop InfinityStat: service infinitystat stop"
+            echo "===="
+            echo "Starting InfinityStat service"
+            /etc/init.d/infinitystat start
+            echo "===="
 fi
