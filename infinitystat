@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          infiniftystat
+# Provides:          infinitystat
 # Required-Start:    $local_fs
 # Required-Stop:     $local_fs
 # Default-Start:     2 3 4 5
