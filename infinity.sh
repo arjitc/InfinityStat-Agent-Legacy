@@ -10,11 +10,40 @@ if [ $1 == "update" ]; then
 	exit 
 fi
 
+if [ $1 == "help" ]; then
+	echo "InfinityStat Help"
+	echo ""
+	echo "Start InfinityStat: service infinitystat start"
+	echo ""
+	echo "Stop InfinityStat: service infinitystat stop"
+	echo ""
+	echo "Restart InfinityStat: service infinitystat restart"
+	echo ""
+	echo "Update InfinityStat: infinitystat update"
+	exit 
+fi
+
+if [ $1 == "fix" ]; then
+	echo "Installing InfinityStat Dependencies"
+	echo ""
+	echo "Sysstat and CURL"
+	echo ""
+	apt-get update || yum update -y
+	apt-get install sysstat curl -y || yum install sysstat curl -y
+	echo "Restarting InfinityStat"
+	echo ""
+	/etc/init.d/infinitystat restart
+	echo ""
+	echo "Done"
+	exit 
+fi
+
+
 while true
 do
 	## Initial information
 	server_key=$(cat /etc/infinitystat.conf)
-	version="1"
+	version="2"
 	
 	## Kernel info
 	kernel_info=$(uname -r)
@@ -24,6 +53,8 @@ do
 	ram_free=$(awk '/^MemFree/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
 	ram_cached=$(awk '/^Cached:/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
 	ram_buffers=$(awk '/^Buffers:/ {printf( "%.2f\n", $2 / 1024 )}' /proc/meminfo)
+	swap_total=$(cat /proc/meminfo | grep ^SwapTotal: | awk '{print $2}')
+	swap_free=$(cat /proc/meminfo | grep ^SwapFree: | awk '{print $2}')
 
 	##CPU
 	cpu_name=$(grep 'model name' /proc/cpuinfo | cut -d: -f2 |cut -d@ -f1 |head -1)
@@ -40,7 +71,7 @@ do
 	core_count=$(cat /proc/cpuinfo | grep "siblings" | sort -u | awk '{print $3}')
 
 	##Uptime
-	uptime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
+	uptime=$(cat /proc/uptime | awk '{print $1}')
 
 	##Network
 	nic=$(ip route get 8.8.8.8 | grep dev | awk -F'dev' '{ print $2 }' | awk '{ print $1 }')
@@ -67,7 +98,7 @@ do
 	process_count=$(ps aux | wc -l)
 
 	##Lets post the data
-	curl --data "server_key=$server_key&version=$version&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count" http://infinitystat.com/infinity.php
+	curl --data "server_key=$server_key&version=$version&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&swap_total=$swap_total&swap_free=$swap_free&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count" http://infinitystat.com/infinity.php
 
 sleep 300
 done
