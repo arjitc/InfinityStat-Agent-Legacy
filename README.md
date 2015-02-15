@@ -1,5 +1,5 @@
 # InfinityStat
-InfinityStat monitoring agent
+The InfinityStat monitoring agent
 
 ## Prerequisites
 InfinityStat needs 2 packages installed on your system to function,
@@ -12,7 +12,7 @@ sysstat (ie, iostat) is used to get the following stats from your system
 * idle_cpu https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L68
 * system_cpu https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L69
 
-curl is used to POST the final data collected to us
+curl is used to POST the final data collected to us https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L101
 
 ## Installation
 
