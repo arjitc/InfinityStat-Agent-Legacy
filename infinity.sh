@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $1 == "update" ]; then
+if [ "$1" == "update" ]; then
 	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinity.sh -O /bin/infinitystat --no-check-certificate
 	chmod +x /bin/infinitystat
 	wget https://raw.githubusercontent.com/arjitc/InfinityStat/master/infinitystat -O /etc/init.d/infinitystat --no-check-certificate
@@ -10,30 +10,22 @@ if [ $1 == "update" ]; then
 	exit 
 fi
 
-if [ $1 == "help" ]; then
+if [ "$1" == "help" ]; then
 	echo "InfinityStat Help"
-	echo ""
 	echo "Start InfinityStat: service infinitystat start"
-	echo ""
 	echo "Stop InfinityStat: service infinitystat stop"
-	echo ""
 	echo "Restart InfinityStat: service infinitystat restart"
-	echo ""
 	echo "Update InfinityStat: infinitystat update"
 	exit 
 fi
 
-if [ $1 == "fix" ]; then
+if [ "$1" == "fix" ]; then
 	echo "Installing InfinityStat Dependencies"
-	echo ""
 	echo "Sysstat and CURL"
-	echo ""
 	apt-get update || yum update -y
 	apt-get install sysstat curl -y || yum install sysstat curl -y
 	echo "Restarting InfinityStat"
-	echo ""
 	/etc/init.d/infinitystat restart
-	echo ""
 	echo "Done"
 	exit 
 fi
@@ -43,7 +35,7 @@ while true
 do
 	## Initial information
 	server_key=$(cat /etc/infinitystat.conf)
-	version="2"
+	version="3"
 	
 	## Kernel info
 	kernel_info=$(uname -r)
@@ -64,9 +56,9 @@ do
 	load_2=$(uptime | sed 's/.*load average: //' | awk -F\, '{print $2}')
 	load_3=$(uptime | sed 's/.*load average: //' | awk -F\, '{print $3}')
 	iowait=$(iostat -c|awk '/^ /{print $4}')
-	user_cpu=$(iostat -c|awk '/^ /{print $1}')
-	idle_cpu=$(iostat -c|awk '/^ /{print $6}')
-	system_cpu=$(iostat -c|awk '/^ /{print $3}')
+	user_cpu=$(mpstat | grep -A 5 "%usr" | tail -n 1 | awk -F " " '{print $4}'a)
+	idle_cpu=$(mpstat | grep -A 5 "%idle" | tail -n 1 | awk -F " " '{print $13}'a)
+	system_cpu=$(mpstat | grep -A 5 "%sys" | tail -n 1 | awk -F " " '{print $6}'a)
 	cpu_count=$(cat /proc/cpuinfo | grep "physical id" | sort -u | wc -l)
 	core_count=$(cat /proc/cpuinfo | grep "siblings" | sort -u | awk '{print $3}')
 
@@ -98,7 +90,7 @@ do
 	process_count=$(ps aux | wc -l)
 
 	##Lets post the data
-	curl --data "server_key=$server_key&version=$version&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&swap_total=$swap_total&swap_free=$swap_free&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count" http://infinitystat.com/infinity.php
+	curl -k --data "server_key=$server_key&version=$version&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&swap_total=$swap_total&swap_free=$swap_free&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count" https://infinitystat.com/infinity.php
 
 sleep 300
 done
