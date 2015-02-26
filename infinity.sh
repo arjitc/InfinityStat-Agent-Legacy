@@ -31,7 +31,7 @@ if [ "$1" == "fix" ]; then
 fi
 
 if [ "$1" == "version" ]; then
-	echo "InfinityStat 3.2"
+	echo "InfinityStat 3.3"
 	exit 
 fi
 
@@ -39,7 +39,7 @@ while true
 do
 	## Initial information
 	server_key=$(cat /etc/infinitystat.conf)
-	version="3.2"
+	version="3.3"
 	
 	## Kernel info
 	kernel_info=$(uname -r)
@@ -92,9 +92,10 @@ do
 	#OS
 	distro=$(egrep -i '^red\ hat|^fedora|^suse|^centos|^ubuntu|^debian' /etc/issue)
 	process_count=$(ps aux | wc -l)
+	processes=$(ps --no-headers aux | sort -rk 3,3 | head -n 10)
 
 	##Lets post the data
-	curl --data "server_key=$server_key&version=$version&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&swap_total=$swap_total&swap_free=$swap_free&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count" http://infinitystat.com/infinity.php
+	curl --data "server_key=$server_key&version=$version&kernel_info=$kernel_info&ram_total=$ram_total&ram_free=$ram_free&ram_cached=$ram_cached&ram_buffers=$ram_buffers&swap_total=$swap_total&swap_free=$swap_free&cpu_freq=$cpu_freq&cpu_name=$cpu_name&cpu_count=$cpu_count&core_count=$core_count&uptime=$uptime&load_1=$load_1&load_2=$load_2&load_3=$load_3&iowait=$iowait&ping_us=$ping_us&ping_eu=$ping_eu&ping_asia=$ping_asia&system_cpu=$system_cpu&idle_cpu=$idle_cpu&user_cpu=$user_cpu&receive=$receive&transmit=$transmit&pps_receive=$pps_receive&pps_transmit=$pps_transmit&distro=$distro&process_count=$process_count&processes=$processes" http://infinitystat.com/infinity.php
 
 sleep 300
 done
