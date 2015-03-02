@@ -31,7 +31,7 @@ if [ "$1" == "fix" ]; then
 fi
 
 if [ "$1" == "version" ]; then
-	echo "InfinityStat 3.3"
+	echo "InfinityStat 4"
 	exit 
 fi
 
@@ -39,7 +39,7 @@ while true
 do
 	## Initial information
 	server_key=$(cat /etc/infinitystat.conf)
-	version="3.3"
+	version="4"
 	
 	## Kernel info
 	kernel_info=$(uname -r)
