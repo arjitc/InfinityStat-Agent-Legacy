@@ -3,16 +3,9 @@ The InfinityStat monitoring agent
 
 ## Prerequisites
 InfinityStat needs 2 packages installed on your system to function,
-* sysstat
-* curl
-
-sysstat (ie, iostat) is used to get the following stats from your system
-* iowait https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L66
-* user_cpu https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L67
-* idle_cpu https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L68
-* system_cpu https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L69
-
-curl is used to POST the final data collected to us https://github.com/arjitc/InfinityStat/blob/master/infinity.sh#L101
+* sysstat - To collect various bits of data that we graph up for you
+* curl - To POST the data collected by sysstat to us
+* chkconfig - To start the agent on boot
 
 ## Installation
 
@@ -34,5 +27,5 @@ Automated fix:
 
 Manual fix:
 
-    yum install curl sysstat (CentOS/Fedora/Scientific/RHEL/RHEL based distros)
-    apt-get update && apt-get install curl sysstat (Debian/Ubuntu)
+    yum install curl sysstat chkconfig (CentOS/Fedora/Scientific/RHEL/RHEL based distros)
+    apt-get update && apt-get install curl sysstat chkconfig (Debian/Ubuntu)
