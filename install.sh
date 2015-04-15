@@ -21,6 +21,4 @@ echo "Install complete"
 echo "To start InfinityStat: service infinitystat start"
 echo "To stop InfinityStat: service infinitystat stop"
 echo "===="
-echo "Starting InfinityStat service"
 /etc/init.d/infinitystat start
-echo "===="
