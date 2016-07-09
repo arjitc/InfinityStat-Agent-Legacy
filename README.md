@@ -2,7 +2,7 @@
 The InfinityStat monitoring agent
 
 ## Prerequisites
-InfinityStat needs 2 packages installed on your system to function,
+InfinityStat needs 3 packages installed on your system to function,
 * sysstat - To collect various bits of data that we graph up for you
 * curl - To POST the data collected by sysstat to us
 * chkconfig - To start the agent on boot
@@ -19,7 +19,7 @@ Upon singning up, you'll get an option to add your server into your account afte
 
 ## Debugging
 
-Sometimes sysstat and curl don't get installed which ends up with no data getting sent to us or incomplete data getting sent to us if sysstat is missing which can be fixed with running either of the 2 options listed below
+Sometimes the sysstat and curl package don't get installed which ends up with no data getting sent to us, this can be fixed with running either of the 2 options listed below,
 
 Automated fix:
 
